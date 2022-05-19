@@ -42,7 +42,7 @@ class TopNeuCard extends StatelessWidget {
                           ),
                           child: Center(
                             child: Icon(
-                              Icons.arrow_upward,
+                              Icons.arrow_downward,
                               color: Colors.green,
                             ),
                           ),
@@ -76,7 +76,7 @@ class TopNeuCard extends StatelessWidget {
                           ),
                           child: Center(
                             child: Icon(
-                              Icons.arrow_downward,
+                              Icons.arrow_upward,
                               color: Colors.red,
                             ),
                           ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class PlusButton extends StatelessWidget {
+class SendButton extends StatelessWidget {
   final function;
 
-  PlusButton({this.function});
+  SendButton({this.function});
 
   @override
   Widget build(BuildContext context) {
