@@ -173,10 +173,9 @@ class _HomePageState extends State<DailyPage> {
               left: 20,
               top: 40,
               child: new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                
                 children: <Widget>[
-                  
                   IconButton(
                     onPressed: () {},
                     icon: Icon(Icons.menu),
