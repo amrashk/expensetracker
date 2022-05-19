@@ -1,19 +1,15 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'google_sheets_api.dart';
-import 'loading_circle.dart';
-import 'plus_button.dart';
-import 'top_card.dart';
-import 'transaction.dart';
 
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:expensetracker/pages/budget_page.dart';
-import 'package:expensetracker/pages/create_budge_page.dart';
 import 'package:expensetracker/pages/daily_page.dart';
 import 'package:expensetracker/pages/profile_page.dart';
 import 'package:expensetracker/pages/stats_page.dart';
 import 'package:expensetracker/theme/colors.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+
+import 'google_sheets_api.dart';
 
 class HomePage extends StatefulWidget {
   // const HomePage({Key? key}) : super(key: key);
@@ -121,8 +117,7 @@ class _HomePageState extends State<HomePage> {
                 actions: <Widget>[
                   MaterialButton(
                     color: Colors.grey[600],
-                    child:
-                        Text('Cancel', style: TextStyle(color: Colors.white)),
+                    child: Text('Cancel', style: TextStyle(color: Colors.white)),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -146,6 +141,7 @@ class _HomePageState extends State<HomePage> {
 
   // wait for the data to be fetched from google sheets
   bool timerHasStarted = false;
+
   void startLoading() {
     timerHasStarted = true;
     Timer.periodic(Duration(seconds: 1), (timer) {
@@ -155,8 +151,6 @@ class _HomePageState extends State<HomePage> {
       }
     });
   }
-
-
 
   Widget getFooter() {
     List<IconData> iconItems = [
@@ -197,70 +191,68 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  
-  
   @override
   Widget build(BuildContext context) {
     // start loading until the data arrives
     if (GoogleSheetsApi.loading == true && timerHasStarted == false) {
       startLoading();
     }
-    
 
     return Scaffold(
-      bottomSheet: getBody(),
-      bottomNavigationBar: getFooter(),
-      backgroundColor: Colors.grey[300],
-      body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 30,
-            ),
-            TopNeuCard(
-              balance: (GoogleSheetsApi.calculateIncome() -
-                      GoogleSheetsApi.calculateExpense())
-                  .toString(),
-              income: GoogleSheetsApi.calculateIncome().toString(),
-              expense: GoogleSheetsApi.calculateExpense().toString(),
-            ),
-            Expanded(
-              child: Container(
-                child: Center(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Expanded(
-                        child: GoogleSheetsApi.loading == true
-                            ? LoadingCircle()
-                            : ListView.builder(
-                                itemCount:
-                                    GoogleSheetsApi.currentTransactions.length,
-                                itemBuilder: (context, index) {
-                                  return MyTransaction(
-                                    transactionName: GoogleSheetsApi
-                                        .currentTransactions[index][0],
-                                    money: GoogleSheetsApi
-                                        .currentTransactions[index][1],
-                                    expenseOrIncome: GoogleSheetsApi
-                                        .currentTransactions[index][2],
-                                  );
-                                }),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            PlusButton(
-              function: _newTransaction,
-            ),
-          ],
-        ),
-      ),
-    );
+        // bottomSheet: getBody(),
+        bottomNavigationBar: getFooter(),
+        backgroundColor: Colors.grey[300],
+        body: getBody()
+        // Padding(
+        //   padding: const EdgeInsets.all(25.0),
+        //   child: Column(
+        //     children: [
+        //       SizedBox(
+        //         height: 30,
+        //       ),
+        //       TopNeuCard(
+        //         balance: (GoogleSheetsApi.calculateIncome() -
+        //                 GoogleSheetsApi.calculateExpense())
+        //             .toString(),
+        //         income: GoogleSheetsApi.calculateIncome().toString(),
+        //         expense: GoogleSheetsApi.calculateExpense().toString(),
+        //       ),
+        //       Expanded(
+        //         child: Container(
+        //           child: Center(
+        //             child: Column(
+        //               children: [
+        //                 SizedBox(
+        //                   height: 20,
+        //                 ),
+        //                 Expanded(
+        //                   child: GoogleSheetsApi.loading == true
+        //                       ? LoadingCircle()
+        //                       : ListView.builder(
+        //                           itemCount:
+        //                               GoogleSheetsApi.currentTransactions.length,
+        //                           itemBuilder: (context, index) {
+        //                             return MyTransaction(
+        //                               transactionName: GoogleSheetsApi
+        //                                   .currentTransactions[index][0],
+        //                               money: GoogleSheetsApi
+        //                                   .currentTransactions[index][1],
+        //                               expenseOrIncome: GoogleSheetsApi
+        //                                   .currentTransactions[index][2],
+        //                             );
+        //                           }),
+        //                 )
+        //               ],
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //       PlusButton(
+        //         function: _newTransaction,
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        );
   }
 }

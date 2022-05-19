@@ -1,12 +1,14 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
+
 import '/google_sheets_api.dart';
 import '/loading_circle.dart';
+import '/pay_button.dart';
 import '/plus_button.dart';
+import '/send_button.dart';
 import '/top_card.dart';
 import '/transaction.dart';
-import '/pay_button.dart';
-import '/send_button.dart';
 
 class DailyPage extends StatefulWidget {
   const DailyPage({Key? key}) : super(key: key);
@@ -108,8 +110,7 @@ class _HomePageState extends State<DailyPage> {
                 actions: <Widget>[
                   MaterialButton(
                     color: Colors.grey[600],
-                    child:
-                        Text('Cancel', style: TextStyle(color: Colors.white)),
+                    child: Text('Cancel', style: TextStyle(color: Colors.white)),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -133,6 +134,7 @@ class _HomePageState extends State<DailyPage> {
 
   // wait for the data to be fetched from google sheets
   bool timerHasStarted = false;
+
   void startLoading() {
     timerHasStarted = true;
     Timer.periodic(Duration(seconds: 1), (timer) {
@@ -151,116 +153,124 @@ class _HomePageState extends State<DailyPage> {
     }
 
     return Scaffold(
-      body: Container(
-        width: double.maxFinite,
-        height: double.maxFinite,
-        child: Stack(
-          children: [
-            Positioned(
-              left: 0,
-              right: 0,
-              child: Container(
-                width: double.maxFinite,
-                height: 200,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("images/background.jpg"),
-                      fit: BoxFit.cover),
-                ),
-              ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      // ),
+      body: Stack(
+        children: [
+          Container(
+            height: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(image: AssetImage("assets/images/background.jpg"), fit: BoxFit.cover),
             ),
-            Positioned(
-              left: 20,
-              top: 40,
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                
-                children: <Widget>[
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.menu),
-                    color: Colors.white,
-                  ),
-                  Text("Wallet"),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.menu),
-                    color: Colors.white,
-                  )
-                ],
-              ),
-            ),
-            Positioned(
-                top: 160,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 700,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30))),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 0,
-                      ),
-                      TopNeuCard(
-                        balance: (GoogleSheetsApi.calculateIncome() -
-                                GoogleSheetsApi.calculateExpense())
-                            .toString(),
-                        income: GoogleSheetsApi.calculateIncome().toString(),
-                        expense: GoogleSheetsApi.calculateExpense().toString(),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          PlusButton(
-                            function: _newTransaction,
-                          ),
-                          PayButton(),
-                          SendButton(),
-                        ],
+          ),
+          SafeArea(
+            child: Container(
+              // width: double.maxFinite,
+              // height: double.maxFinite,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.menu),
+                        color: Colors.blue,
                       ),
                       Expanded(
-                        child: Container(
-                          child: Center(
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Expanded(
-                                  child: GoogleSheetsApi.loading == true
-                                      ? LoadingCircle()
-                                      : ListView.builder(
-                                          itemCount: GoogleSheetsApi
-                                              .currentTransactions.length,
-                                          itemBuilder: (context, index) {
-                                            return MyTransaction(
-                                              transactionName: GoogleSheetsApi
-                                                      .currentTransactions[
-                                                  index][0],
-                                              money: GoogleSheetsApi
-                                                      .currentTransactions[
-                                                  index][1],
-                                              expenseOrIncome: GoogleSheetsApi
-                                                      .currentTransactions[
-                                                  index][2],
-                                            );
-                                          }),
-                                )
-                              ],
-                            ),
+                        child: Center(
+                          child: Text(
+                            "Wallet",
+                            style: TextStyle(color: Colors.red),
                           ),
                         ),
                       ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.menu),
+                        color: Colors.red,
+                      ),
                     ],
                   ),
-                ))
-          ],
-        ),
+                  // Positioned(
+                  //   left: 0,
+                  //   right: 0,
+                  //   child: Container(
+                  //     width: double.maxFinite,
+                  //     height: 200,
+                  //     decoration: BoxDecoration(
+                  //         // image: DecorationImage(
+                  //         //     image: AssetImage("images/background.jpg"),
+                  //         //     fit: BoxFit.cover),
+                  //         ),
+                  //   ),
+                  // ),
+
+                  Expanded(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 0,
+                          ),
+                          TopNeuCard(
+                            balance:
+                                (GoogleSheetsApi.calculateIncome() - GoogleSheetsApi.calculateExpense()).toString(),
+                            income: GoogleSheetsApi.calculateIncome().toString(),
+                            expense: GoogleSheetsApi.calculateExpense().toString(),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              PlusButton(
+                                function: _newTransaction,
+                              ),
+                              PayButton(),
+                              SendButton(),
+                            ],
+                          ),
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Expanded(
+                                      child: GoogleSheetsApi.loading == true
+                                          ? LoadingCircle()
+                                          : ListView.builder(
+                                              itemCount: GoogleSheetsApi.currentTransactions.length,
+                                              itemBuilder: (context, index) {
+                                                return MyTransaction(
+                                                  transactionName: GoogleSheetsApi.currentTransactions[index][0],
+                                                  money: GoogleSheetsApi.currentTransactions[index][1],
+                                                  expenseOrIncome: GoogleSheetsApi.currentTransactions[index][2],
+                                                );
+                                              }),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
 
