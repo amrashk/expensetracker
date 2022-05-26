@@ -10,6 +10,7 @@ import '/send_button.dart';
 import '/top_card.dart';
 import '/transaction.dart';
 
+
 class DailyPage extends StatefulWidget {
   const DailyPage({Key? key}) : super(key: key);
 
