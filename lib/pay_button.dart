@@ -28,10 +28,15 @@ class PayButton extends StatelessWidget {
           shape: BoxShape.circle,
         ),
         child: Center(
-          child: Text(
-            '+',
-            style: TextStyle(color: Colors.white, fontSize: 25),
-          ),
+          child: Icon(
+                      Icons.payment_outlined,
+                      color: Colors.black,
+                      size: 30.0,),
+          
+          // child: Text(
+          //   '+',
+          //   style: TextStyle(color: Colors.white, fontSize: 25),
+          // ),
         ),
       ),
     );

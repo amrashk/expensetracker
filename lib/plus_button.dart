@@ -17,10 +17,10 @@ class PlusButton extends StatelessWidget {
           shape: BoxShape.circle,
         ),
         child: Center(
-          child: Text(
-            '+',
-            style: TextStyle(color: Colors.white, fontSize: 25),
-          ),
+          child: Icon(
+                      Icons.add,
+                      color: Colors.black,
+                      size: 30.0,),
         ),
       ),
     );
